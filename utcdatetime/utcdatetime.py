@@ -16,6 +16,11 @@ class utcdatetime(object):
 
     @classmethod
     def from_datetime(cls, dt):
+        if dt.tzinfo is None or dt.tzinfo.utcoffset(d) is None:
+            raise ValueError(
+                "Cannot construct utcdatetime from naive datetime"
+            )
+
         dt_utc = dt.astimezone(UTC)
 
         return cls(dt_utc.year, dt_utc.month, dt_utc.day, dt_utc.hour,
